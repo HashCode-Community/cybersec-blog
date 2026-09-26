@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lab débutant : capturer et analyser du trafic réseau avec Wireshark pour repérer des paquets suspects.">
+    <title>Lab : Capturer du trafic avec Wireshark | CYBER//LAB</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            CYBER<span>//</span>LAB
+        </div>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="../pages/articles.html">Articles</a>
+            <a href="../pages/labs.html" class="active">Labs</a>
+            <a href="../pages/roadmap.html">Roadmap</a>
+            <a href="../pages/resources.html">Ressources</a>
+            <a href="../pages/news.html">Actualités</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+
+        <article class="article-full">
+
+            <a href="../pages/labs.html" class="back-link">← Retour aux labs</a>
+
+            <p class="lab-header-level beginner">NIVEAU : DÉBUTANT</p>
+
+            <h1>Capturer du trafic avec Wireshark</h1>
+
+            <p class="lead">
+                Objectif : observer ce qui circule réellement sur le réseau,
+                comprendre une poignée de main TCP et apprendre à filtrer le
+                trafic pour isoler une communication précise.
+            </p>
+
+            <div class="lab-info">
+                <div>
+                    <strong>DURÉE</strong>
+                    40 minutes
+                </div>
+                <div>
+                    <strong>OUTILS</strong>
+                    Wireshark, curl
+                </div>
+                <div>
+                    <strong>PRÉREQUIS</strong>
+                    Article « Comprendre les ports réseau »
+                </div>
+            </div>
+
+            <h2>⚠ Cadre de l'exercice</h2>
+
+            <div class="warning-box">
+                <strong>À lire avant de commencer :</strong> ne capture jamais
+                le trafic d'un réseau qui ne t'appartient pas. Une capture peut
+                contenir des identifiants, des cookies et des données
+                personnelles. Travaille sur ta machine, sur ta machine
+                virtuelle ou sur un réseau de laboratoire isolé.
+            </div>
+
+            <h2>Étape 1 — Installer Wireshark</h2>
+
+            <pre><code>sudo apt update
+sudo apt install wireshark</code></pre>
+
+            <p>
+                Ajoute ensuite ton compte au groupe <code>wireshark</code>
+                pour pouvoir capturer sans être root, puis reconnecte-toi :
+            </p>
+
+            <pre><code>sudo usermod -aG wireshark $USER</code></pre>
+
+            <h2>Étape 2 — Choisir l'interface</h2>
+
+            <p>
+                Lance Wireshark et repère les interfaces disponibles. Sur
+                Linux, l'interface principale est souvent <code>eth0</code>
+                (Ethernet) ou <code>wlan0</code> (Wi-Fi).
+            </p>
+
+            <p>
+                Sélectionne-la puis démarre la capture avec le bouton bleu.
+                Wireshark enregistre désormais <strong>tout</strong> le trafic
+                qui passe par cette interface.
+            </p>
+
+            <h2>Étape 3 — Générer du trafic volontaire</h2>
+
+            <p>
+                Pour avoir quelque chose à observer, ouvre un second terminal
+                et envoie une requête vers un site :
+            </p>
+
+            <pre><code>curl -I https://example.com</code></pre>
+
+            <p>
+                De retour dans Wireshark, clique sur le bouton rouge pour
+                arrêter la capture. Tu disposes maintenant d'un enregistrement
+                complet de cette session.
+            </p>
+
+            <h2>Étape 4 — Filtrer le trafic</h2>
+
+            <p>
+                Sans filtre, la liste est illisible. La barre de filtre
+                accepte une syntaxe précise :
+            </p>
+
+            <pre><code>ip.addr == 93.184.216.34
+tcp.port == 443
+dns
+http.request</code></pre>
+
+            <ul>
+                <li><code>ip.addr ==</code> : se limiter à une adresse IP.</li>
+                <li><code>tcp.port ==</code> : isoler un port précis.</li>
+                <li><code>dns</code> : n'afficher que les requêtes DNS.</li>
+                <li><code>http.request</code> : uniquement les requêtes HTTP.</li>
+            </ul>
+
+            <div class="note-box">
+                <strong>Astuce :</strong> fais un clic droit sur un paquet
+                puis « Appliquer comme filtre » pour générer le filtre
+                automatiquement. C'est le moyen le plus rapide d'apprendre la
+                syntaxe.
+            </div>
+
+            <h2>Étape 5 — Lire une poignée de main TCP</h2>
+
+            <p>
+                Filtre sur un port, puis observe le tout début de la
+                communication. Tu verras trois paquets caractéristiques :
+            </p>
+
+            <ul>
+                <li><strong>SYN</strong> : le client demande une connexion.</li>
+                <li><strong>SYN/ACK</strong> : le serveur accepte.</li>
+                <li><strong>ACK</strong> : le client confirme.</li>
+            </ul>
+
+            <p>
+                <strong>Question 1 :</strong> combien de temps s'écoule entre
+                le SYN et le SYN/ACK ? Cette durée correspond au temps de
+                réponse du serveur.
+            </p>
+
+            <h2>Étape 6 — Suivre un flux complet</h2>
+
+            <p>
+                Clic droit sur un paquet TCP puis « Suivre le flux TCP ». Une
+                fenêtre affiche la conversation complète, avec les données
+                échangées.
+            </p>
+
+            <p>
+                <strong>Question 2 :</strong> sur une connexion HTTPS, le
+                contenu est-il lisible ? Tu dois constater que non : le
+                chiffrement TLS protège les données. En revanche, les adresses
+                IP et les ports restent visibles, car ils servent au routage.
+            </p>
+
+            <h2>Étape 7 — Repérer ce qui sort de l'ordinaire</h2>
+
+            <p>
+                En analyse défensive, on cherche l'anomalie. Quelques pistes :
+            </p>
+
+            <pre><code>tcp.flags.syn == 1 &amp;&amp; tcp.flags.ack == 0</code></pre>
+
+            <ul>
+                <li>Un nom de domaine au hasard excessif peut indiquer un canal caché.</li>
+                <li>Des SYN en rafale vers de nombreux ports trahissent un scan.</li>
+                <li>De gros volumes vers une adresse inhabituelle évoquent une exfiltration.</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>⚠ Rappel :</strong> une capture contient souvent des
+                données personnelles. Supprime tes fichiers
+                <code>.pcap</code> après le lab et ne les partage jamais sans
+                anonymisation.
+            </div>
+
+            <h2>Synthèse du lab</h2>
+
+            <h3>Ce que tu as appris</h3>
+
+            <ol class="lab-steps">
+                <li>Capturer le trafic d'une interface réseau.</li>
+                <li>Écrire des filtres d'affichage précis.</li>
+                <li>Reconnaître une poignée de main TCP.</li>
+                <li>Suivre un flux et constater l'effet du chiffrement TLS.</li>
+                <li>Adopter une démarche d'analyse : chercher l'anomalie.</li>
+            </ol>
+
+            <h3>Questions de validation</h3>
+
+            <ul>
+                <li>Quelle différence entre une capture filaire et sans fil ?</li>
+                <li>Pourquoi un filtre d'affichage ne modifie-t-il pas la capture ?</li>
+                <li>Un analyseur peut-il lire le contenu d'un flux HTTPS ?</li>
+                <li>Pourquoi anonymiser une capture avant de la partager ?</li>
+            </ul>
+
+            <h3>Pour aller plus loin</h3>
+
+            <ul>
+                <li>Relis <a href="../articles/reseaux.html">Comprendre les ports réseau</a>.</li>
+                <li>Reprends le <a href="nmap-scan.html">lab Nmap</a> et capture ton propre scan.</li>
+                <li>Explore le <a href="../articles/firewall.html">rôle du pare-feu</a> dans le filtrage.</li>
+            </ul>
+
+            <div class="article-footer-nav">
+                <a href="../pages/labs.html" class="btn secondary">← Tous les labs</a>
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">CYBER<span>//</span>LAB</div>
+        <p>Learn. Practice. Defend.</p>
+        <p class="copyright">© 2026 CYBER//LAB — Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

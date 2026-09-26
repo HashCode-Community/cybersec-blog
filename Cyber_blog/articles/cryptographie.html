@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Les bases de la cryptographie : chiffrement symétrique, asymétrique, hachage et certificats expliqués simplement.">
+    <title>Les bases de la cryptographie | CYBER//LAB</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            CYBER<span>//</span>LAB
+        </div>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="../pages/articles.html" class="active">Articles</a>
+            <a href="../pages/labs.html">Labs</a>
+            <a href="../pages/roadmap.html">Roadmap</a>
+            <a href="../pages/resources.html">Ressources</a>
+            <a href="../pages/news.html">Actualités</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+
+        <article class="article-full">
+
+            <a href="../pages/articles.html" class="back-link">← Retour aux articles</a>
+
+            <p class="meta">CRYPTOGRAPHIE • 8 MIN DE LECTURE</p>
+
+            <h1>Les bases de la cryptographie</h1>
+
+            <p class="lead">
+                Chiffrer, hacher, signer : trois opérations différentes que
+                l'on confond souvent. Ce guide clarifie ce que chacune
+                protège réellement, pour ne plus se tromper d'outil.
+            </p>
+
+            <h2>Le vocabulaire de base</h2>
+
+            <p>
+                La cryptographie est la science qui protège l'information en
+                la transformant de façon à ce qu'elle reste illisible pour qui
+                ne possède pas la clé. Trois propriétés sont recherchées :
+            </p>
+
+            <ul>
+                <li><strong>Confidentialité</strong> : personne d'autre ne peut lire le message.</li>
+                <li><strong>Intégrité</strong> : on peut détecter toute modification du message.</li>
+                <li><strong>Authenticité</strong> : on peut vérifier qui a réellement envoyé le message.</li>
+            </ul>
+
+            <p>
+                Le texte lisible s'appelle le <em>clair</em> ; une fois
+                transformé, c'est le <em>chiffré</em>. La transformation
+                repose sur un algorithme public et une clé secrète : c'est la
+                clé qui assure la sécurité, jamais le secret de l'algorithme.
+            </p>
+
+            <h2>Le chiffrement symétrique</h2>
+
+            <p>
+                Une même clé sert à chiffrer et à déchiffrer. C'est rapide et
+                efficace pour de gros volumes de données. Son point faible :
+                il faut transmettre la clé de façon sûre aux deux parties.
+            </p>
+
+            <ul>
+                <li><strong>AES</strong> — le standard actuel, utilisé partout.</li>
+                <li><strong>ChaCha20</strong> — rapide et robuste, très présent sur mobile.</li>
+                <li><strong>DES / 3DES</strong> — anciens, considérés comme obsolètes.</li>
+            </ul>
+
+            <h2>Le chiffrement asymétrique</h2>
+
+            <p>
+                Chaque personne possède une paire de clés : une clé
+                <strong>publique</strong>, que l'on diffuse librement, et une
+                clé <strong>privée</strong>, que l'on garde secrète. Ce qui a
+                été chiffré avec l'une se déchiffre avec l'autre.
+            </p>
+
+            <ul>
+                <li>
+                    <strong>RSA</strong> — historique, repose sur la difficulté
+                    de factoriser de grands nombres.
+                </li>
+                <li>
+                    <strong>ECC</strong> (courbes elliptiques) — clés plus
+                    courtes pour une sécurité équivalente.
+                </li>
+                <li>
+                    <strong>Diffie-Hellman</strong> — permet à deux parties de
+                    s'accorder sur une clé sans l'échanger en clair.
+                </li>
+            </ul>
+
+            <p>
+                En pratique, on combine les deux : le chiffrement asymétrique
+                sert à échanger une clé de session, puis le symétrique chiffre
+                les données. C'est exactement ce que fait HTTPS.
+            </p>
+
+            <h2>Le hachage : un cousin, pas un chiffrement</h2>
+
+            <p>
+                Une fonction de hachage transforme une donnée en une empreinte
+                de taille fixe, à sens unique : il est impossible de remonter
+                au message d'origine. On ne l'utilise donc pas pour protéger
+                une donnée, mais pour la vérifier.
+            </p>
+
+            <ul>
+                <li><strong>SHA-256</strong> — standard pour l'intégrité.</li>
+                <li><strong>bcrypt / Argon2</strong> — conçus pour stocker des mots de passe lentement, à dessein.</li>
+                <li><strong>MD5 / SHA-1</strong> — cassés, à ne plus utiliser.</li>
+            </ul>
+
+            <div class="note-box">
+                <strong>Ne jamais hacher un mot de passe sans « sel »
+                (salt).</strong> Le sel est une valeur aléatoire ajoutée avant
+                le hachage. Il empêche deux mots de passe identiques de
+                produire la même empreinte et bloque les tables de hachages
+                précalculés.
+            </div>
+
+            <h2>Le message est chiffré, mais le site est-il authentique ?</h2>
+
+            <p>
+                Le chiffrement seul ne suffit pas : il faut aussi être sûr de
+                parler au bon interlocuteur. C'est le rôle des
+                <strong>certificats</strong> et de la PKI (infrastructure à
+                clés publiques). Le cadenas du navigateur signifie que le
+                certificat du site a été validé par une autorité de
+                certification.
+            </p>
+
+            <div class="warning-box">
+                <strong>⚠ Attention :</strong> un site en HTTPS n'est pas
+                forcément honnête. Les sites de phishing utilisent aussi des
+                certificats valides. Le cadenas garantit la confidentialité
+                du transport, pas l'intégrité de l'intention du site.
+            </div>
+
+            <h2>À retenir</h2>
+
+            <ul>
+                <li>La sécurité repose sur la clé, pas sur le secret de l'algorithme.</li>
+                <li>Symétrique = rapide, asymétrique = résout l'échange de clés.</li>
+                <li>Hachage ≠ chiffrement : c'est à sens unique.</li>
+                <li>Un mot de passe doit être haché avec sel et algorithme lent.</li>
+                <li>HTTPS protège le transport, pas la fiabilité du site.</li>
+            </ul>
+
+            <div class="article-footer-nav">
+                <a href="osint.html" class="btn secondary">Article suivant : OSINT →</a>
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">CYBER<span>//</span>LAB</div>
+        <p>Learn. Practice. Defend.</p>
+        <p class="copyright">© 2026 CYBER//LAB — Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

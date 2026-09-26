@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lab avancé : comprendre et corriger une injection SQL et un XSS sur une application volontairement vulnérable, en environnement isolé.">
+    <title>Lab : Exploitation web (SQLi / XSS) | CYBER//LAB</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            CYBER<span>//</span>LAB
+        </div>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="../pages/articles.html">Articles</a>
+            <a href="../pages/labs.html" class="active">Labs</a>
+            <a href="../pages/roadmap.html">Roadmap</a>
+            <a href="../pages/resources.html">Ressources</a>
+            <a href="../pages/news.html">Actualités</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+
+        <article class="article-full">
+
+            <a href="../pages/labs.html" class="back-link">← Retour aux labs</a>
+
+            <p class="lab-header-level advanced">NIVEAU : AVANCÉ</p>
+
+            <h1>Exploitation web : injections SQL et XSS</h1>
+
+            <p class="lead">
+                Objectif : provoquer puis corriger les deux vulnérabilités web les
+                plus enseignées — l'injection SQL et le cross-site scripting (XSS).
+                Tout se passe dans une machine virtuelle isolée, sur une application
+                volontairement vulnérable.
+            </p>
+
+            <div class="lab-info">
+                <div>
+                    <strong>DURÉE</strong>
+                    90 minutes
+                </div>
+                <div>
+                    <strong>OUTILS</strong>
+                    DVWA ou OWASP Juice Shop, navigateur, Burp Suite Community
+                </div>
+                <div>
+                    <strong>PRÉREQUIS</strong>
+                    Article « Comprendre les ports réseau » + notions HTTP
+                </div>
+            </div>
+
+            <h2>⚠ Cadre de l'exercice</h2>
+
+            <div class="warning-box">
+                <strong>À lire avant de commencer :</strong> ce laboratoire se
+                déroule <strong>exclusivement</strong> sur une machine virtuelle
+                isolée, sur une application <strong>volontairement</strong>
+                vulnérable que tu installes toi-même. Tester une injection sur un
+                site que tu n'administres pas est un délit, même sans intention
+                malveillante et même si la faille est évidente.
+            </div>
+
+            <h2>Pourquoi ces deux failles sont incontournables</h2>
+
+            <p>
+                Une injection SQL permet de lire — parfois de modifier — la base de
+                données d'un site en détournant une requête. Un XSS permet d'exécuter
+                du JavaScript dans le navigateur d'un autre utilisateur. Les deux
+                reposent sur la même erreur de conception : faire confiance à une
+                donnée qui vient de l'extérieur.
+            </p>
+
+            <p>
+                C'est aussi pour cette raison que le sujet est enseigné : comprendre
+                l'attaque est la seule façon de savoir écrire la correction.
+            </p>
+
+            <h2>Étape 1 — Monter un environnement isolé</h2>
+
+            <p>
+                La règle avant tout : une cible que tu possèdes. Crée une machine
+                virtuelle, place l'interface réseau en <em>host-only</em> (pas de
+                pont vers ton réseau réel), puis démarre une application
+                volontairement vulnérable — DVWA dans cet exemple :
+            </p>
+
+            <pre><code>docker run --rm -it -p 8080:80 vulnerables/web-dvwa</code></pre>
+
+            <p>
+                Ouvre <code>http://localhost:8080</code>, connecte-toi avec les
+                identifiants par défaut, clique sur <strong>Create / Reset
+                    Database</strong>, puis règle
+                <strong>DVWA Security</strong> sur <code>low</code>.
+            </p>
+
+            <div class="note-box">
+                <strong>Pourquoi une VM :</strong> si l'application est vulnérable
+                par conception, elle l'est aussi pour ton réseau. L'isolement
+                n'est pas une précaution morale, c'est une mesure technique.
+            </div>
+
+            <h2>Étape 2 — Repérer un paramètre injectable</h2>
+
+            <p>
+                Une injection se cherche là où une valeur transite vers une requête.
+                Ici, l'URL contient un paramètre <code>id</code> :
+            </p>
+
+            <pre><code>http://localhost:8080/vulnerabilities/sqli/?id=1&amp;Submit=Submit</code></pre>
+
+            <p>
+                Remplace la valeur par une apostrophe seule (<code>id=1'</code>) et
+                observe : un message d'erreur SQL apparaît. C'est le signal que
+                l'entrée est concaténée directement dans la requête au lieu d'être
+                traitée comme une valeur.
+            </p>
+
+            <ul>
+                <li>Réponse normale → entrée utilisée comme donnée.</li>
+                <li>Erreur SQL → entrée utilisée comme code.</li>
+                <li>Aucun changement → l'entrée est filtrée ou traitée autrement.</li>
+            </ul>
+
+            <h2>Étape 3 — Injection SQL : sortir du contexte</h2>
+
+            <p>
+                La requête serveur ressemble à ceci : la chaîne saisie est insérée
+                telle quelle dans le <code>WHERE</code>.
+            </p>
+
+            <pre><code>SELECT * FROM users WHERE id = '$id';</code></pre>
+
+            <p>
+                Ferme la chaîne, puis enchaîne sur un second <code>SELECT</code> dont
+                le résultat sera affiché à la place des données attendues :
+            </p>
+
+            <pre><code>1' UNION SELECT user, password FROM users -- </code></pre>
+
+            <ul>
+                <li><code>1'</code> : ferme la chaîne de caractères du <code>WHERE</code>.</li>
+                <li><code>UNION SELECT</code> : ajoute un jeu de résultats à celui de la requête.</li>
+                <li><code>-- </code> : commente la fin de la requête d'origine.</li>
+            </ul>
+
+            <p>
+                <strong>Question 1 :</strong> que vois-tu apparaître dans la page ?
+                Reconnais-tu la colonne <code>password</code> ? Le principe est
+                illustré : la base ne demande pas si l'instruction était prévue,
+                elle l'exécute.
+            </p>
+
+            <h2>Étape 4 — Contourner une authentification</h2>
+
+            <p>
+                Même mécanisme sur un formulaire de connexion : la requête de
+                vérification ressemble à
+                <code>SELECT * FROM users WHERE user = '$u' AND password = '$p';</code>.
+                Une condition toujours vraie rend la vérification inutile :
+            </p>
+
+            <pre><code>admin' -- </code></pre>
+
+            <p>
+                L'apostrophe ferme la chaîne, le commentaire supprime le test du mot
+                de passe — la requête ne cherche plus qu'un utilisateur existant.
+                <strong>Question 2 :</strong> pourquoi aucune connaissance du mot de
+                passe n'était-elle nécessaire ?
+            </p>
+
+            <h2>Étape 5 — Comprendre la cause dans le code</h2>
+
+            <p>
+                La faille ne vient pas de l'apostrophe, mais de la façon dont la
+                requête est construite. Compare les deux approches :
+            </p>
+
+            <pre><code># ❌ Concaténation : l'entrée devient du code
+query = "SELECT * FROM users WHERE id = '" + user_id + "'"
+
+# ✅ Requête préparée : l'entrée reste une donnée
+query = "SELECT * FROM users WHERE id = ?"
+cursor.execute(query, (user_id,))</code></pre>
+
+            <p>
+                Dans le second cas, le moteur reçoit la requête et les valeurs
+                séparément : une apostrophe ne peut plus modifier la structure de
+                l'instruction. C'est la correction de fond, indépendante de la
+                manière dont l'application affiche ses erreurs.
+            </p>
+
+            <div class="note-box">
+                <strong>À retenir :</strong> masquer les messages d'erreur SQL est
+                utile, mais ce n'est pas une correction. Une injection silencieuse
+                reste exploitable — en aveugle, simplement plus lentement.
+            </div>
+
+            <h2>Étape 6 — XSS : réfléchi puis stocké</h2>
+
+            <p>
+                Le XSS ne s'attaque pas à la base de données mais au navigateur des
+                visiteurs. Page <strong>XSS (reflected)</strong> de DVWA : saisis une
+                valeur et vérifie si elle est renvoyée telle quelle dans la page.
+            </p>
+
+            <pre><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code></pre>
+
+            <p>
+                Si le mot-clé <code>script</code> est filtré mais que l'entrée n'est
+                toujours pas encodée en sortie, la faille demeure — elle change
+                simplement de forme :
+            </p>
+
+            <pre><code>&lt;img src=x onerror=alert(1)&gt;</code></pre>
+
+            <p>
+                Page <strong>XSS (stored)</strong>, même test dans un champ qui est
+                enregistré (un commentaire) : la charge n'est plus renvoyée au seul
+                visiteur qui l'a saisie, elle est servie à <em>tous</em> ceux qui
+                consultent la page. C'est le passage d'un bug « désagréable » à un
+                vol de session potentiel.
+            </p>
+
+            <ul>
+                <li><strong>Réfléchi</strong> : la charge transite par la requête et la réponse.</li>
+                <li><strong>Stocké</strong> : la charge est persistée puis servie à chaque visite.</li>
+                <li><strong>Effet</strong> : lecture des cookies non protégés, action au nom de la victime.</li>
+            </ul>
+
+            <h2>Étape 7 — Corriger : défense en profondeur</h2>
+
+            <p>
+                Aucune de ces failles ne se referme avec un filtre de « mots
+                interdits ». Il faut traiter la donnée au bon endroit :
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Injection SQL</strong> : requêtes préparées avec
+                    paramètres liés, ou ORM. Jamais de requête construite par
+                    concaténation.
+                </li>
+                <li>
+                    <strong>Validation d'entrée</strong> : un identifiant attendu
+                    numérique doit être converti en entier avant usage.
+                </li>
+                <li>
+                    <strong>XSS</strong> : encoder la <em>sortie</em> selon son
+                    contexte d'affichage (HTML, attribut, JavaScript, URL) — et non
+                    se contenter de filtrer l'entrée.
+                </li>
+                <li>
+                    <strong>Côté JavaScript</strong> : préférer
+                    <code>textContent</code> à <code>innerHTML</code> pour insérer
+                    des données non fiables.
+                </li>
+                <li>
+                    <strong>Cookies</strong> : <code>HttpOnly</code> (inaccessible en
+                    JS), <code>Secure</code> et <code>SameSite</code>.
+                </li>
+                <li>
+                    <strong>Content-Security-Policy</strong> : limiter les sources de
+                    scripts exécutables, ce qui réduit fortement l'impact d'un XSS
+                    résiduel.
+                </li>
+                <li>
+                    <strong>Moindre privilège</strong> : le compte applicatif n'a
+                    besoin ni de <code>DROP</code>, ni d'accès aux tables inutiles.
+                </li>
+            </ul>
+
+            <div class="note-box">
+                <strong>Le vrai enseignement :</strong> injection SQL et XSS ont une
+                cause commune — une donnée non fiable interprétée comme du code
+                (SQL, HTML ou JavaScript). Le filtre d'entrée aide, mais la
+                correction fiable est le <em>traitement</em> de la donnée à
+                l'endroit où elle est utilisée.
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠ Rappel :</strong> cet exercice n'a de sens que sur une
+                application vulnérable que tu as installée toi-même. La
+                reconnaissance, la lecture de données ou l'injection de script sur
+                un service tiers sont des infractions pénales.
+            </div>
+
+            <h2>Synthèse du lab</h2>
+
+            <h3>Ce que tu as appris</h3>
+
+            <ol class="lab-steps">
+                <li>Isoler un environnement d'entraînement volontairement vulnérable.</li>
+                <li>Repérer un paramètre injectable par le comportement de l'application.</li>
+                <li>Détourner une requête SQL pour lire des données imprévues.</li>
+                <li>Injecter du JavaScript côté client, en version réfléchie puis stockée.</li>
+                <li>Corriger à la source avec des requêtes préparées et l'encodage de sortie.</li>
+                <li>Durcir la réponse : cookies, CSP et moindre privilège.</li>
+            </ol>
+
+            <h3>Bonnes pratiques retenues</h3>
+
+            <ul>
+                <li>Toujours utiliser des requêtes préparées avec paramètres liés.</li>
+                <li>Ne jamais construire une requête en concaténant des chaînes.</li>
+                <li>Encoder la sortie selon son contexte d'affichage.</li>
+                <li>Ajouter une CSP stricte et des cookies <code>HttpOnly</code>.</li>
+                <li>Considérer toute entrée utilisateur comme non fiable, y compris la sienne.</li>
+            </ul>
+
+            <h3>Pour aller plus loin</h3>
+
+            <ul>
+                <li>Relis <a href="../articles/firewall.html">Le pare-feu (firewall) expliqué simplement</a>.</li>
+                <li>Revois <a href="../articles/reseaux.html">Comprendre les ports réseau</a> pour le contexte HTTP.</li>
+                <li>Observe les requêtes du lab avec <a href="wireshark-capture.html">Wireshark</a>.</li>
+                <li>Explore les <a href="../pages/resources.html">ressources</a> pour d'autres applications d'entraînement.</li>
+            </ul>
+
+            <div class="article-footer-nav">
+                <a href="../pages/labs.html" class="btn secondary">← Tous les labs</a>
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">CYBER<span>//</span>LAB</div>
+        <p>Learn. Practice. Defend.</p>
+        <p class="copyright">© 2026 CYBER//LAB — Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

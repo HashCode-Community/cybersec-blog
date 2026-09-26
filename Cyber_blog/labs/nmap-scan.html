@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lab débutant : scanner un réseau de laboratoire avec Nmap, étape par étape et dans un cadre légal.">
+    <title>Lab : Scanner un réseau avec Nmap | CYBER//LAB</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            CYBER<span>//</span>LAB
+        </div>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="../pages/articles.html">Articles</a>
+            <a href="../pages/labs.html" class="active">Labs</a>
+            <a href="../pages/roadmap.html">Roadmap</a>
+            <a href="../pages/resources.html">Ressources</a>
+            <a href="../pages/news.html">Actualités</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+
+        <article class="article-full">
+
+            <a href="../pages/labs.html" class="back-link">← Retour aux labs</a>
+
+            <p class="lab-header-level beginner">NIVEAU : DÉBUTANT</p>
+
+            <h1>Scanner un réseau avec Nmap</h1>
+
+            <p class="lead">
+                Objectif : découvrir quelles machines répondent sur un réseau
+                de laboratoire, quels ports y sont ouverts et quels services
+                sont exposés — puis interpréter le résultat comme le ferait un
+                auditeur.
+            </p>
+
+            <div class="lab-info">
+                <div>
+                    <strong>DURÉE</strong>
+                    45 minutes
+                </div>
+                <div>
+                    <strong>OUTILS</strong>
+                    Nmap
+                </div>
+                <div>
+                    <strong>PRÉREQUIS</strong>
+                    Article « Nmap : premiers pas »
+                </div>
+            </div>
+
+            <h2>⚠ Cadre de l'exercice</h2>
+
+            <div class="warning-box">
+                <strong>À lire avant de commencer :</strong> ce laboratoire
+                s'effectue <strong>uniquement</strong> sur une cible légale.
+                Utilise au choix : ta propre machine virtuelle, le réseau
+                <code>127.0.0.0/8</code> de ta machine, ou l'hôte
+                <code>scanme.nmap.org</code> mis à disposition par l'équipe
+                Nmap pour l'entraînement. Scanner un réseau qui ne t'appartient
+                pas est un délit, même sans intention malveillante.
+            </div>
+
+            <h2>Étape 1 — Vérifier l'installation</h2>
+
+            <p>Contrôle que Nmap est disponible et note sa version :</p>
+
+            <pre><code>nmap --version</code></pre>
+
+            <p>
+                Sur Kali Linux, il est déjà installé. Sur Debian/Ubuntu :
+                <code>sudo apt install nmap</code>.
+            </p>
+
+            <h2>Étape 2 — Identifier ta propre adresse</h2>
+
+            <p>
+                Avant de scanner quoi que ce soit, il faut connaître son
+                réseau local.
+            </p>
+
+            <pre><code>ip a</code></pre>
+
+            <p>
+                Repère l'interface active et son adresse, par exemple
+                <code>192.168.1.42/24</code>. Avec un masque
+                <code>/24</code>, le réseau correspondant est
+                <code>192.168.1.0/24</code>.
+            </p>
+
+            <h2>Étape 3 — Découvrir les hôtes actifs</h2>
+
+            <p>
+                Le scan de découverte n'ouvre aucun port : il se contente de
+                lister les machines qui répondent.
+            </p>
+
+            <pre><code>nmap -sn 192.168.1.0/24</code></pre>
+
+            <ul>
+                <li><code>-sn</code> : ping scan, pas de scan de ports.</li>
+                <li>Remplace l'adresse par celle de ton réseau.</li>
+            </ul>
+
+            <p>
+                <strong>Question 1 :</strong> combien d'hôtes répondent ?
+                Reconnais-tu certaines machines (box, téléphone, PC) ?
+            </p>
+
+            <h2>Étape 4 — Scanner les ports d'une cible</h2>
+
+            <p>
+                Choisis une machine que tu possèdes — idéalement ta machine
+                virtuelle — et scanne ses ports les plus courants.
+            </p>
+
+            <pre><code>nmap -p 1-1000 192.168.1.50</code></pre>
+
+            <p>
+                Un résultat <code>open</code> signale un service à l'écoute,
+                <code>closed</code> un port fermé et <code>filtered</code> un
+                port bloqué par un pare-feu.
+            </p>
+
+            <h2>Étape 5 — Identifier les services</h2>
+
+            <p>
+                La détection de version indique quel logiciel tourne derrière
+                chaque port ouvert.
+            </p>
+
+            <pre><code>nmap -sV -p 22,80,443 192.168.1.50</code></pre>
+
+            <p>
+                <strong>Question 2 :</strong> quelle version de service est
+                exposée ? Est-elle récente ? Une version obsolète est une
+                vulnérabilité potentielle.
+            </p>
+
+            <h2>Étape 6 — Enregistrer le résultat</h2>
+
+            <p>
+                Un audit sans trace écrite ne vaut rien. Exporte le rapport
+                dans plusieurs formats :
+            </p>
+
+            <pre><code>nmap -sV -oN rapport.txt -oX rapport.xml 192.168.1.50</code></pre>
+
+            <ul>
+                <li><code>-oN</code> : sortie lisible par un humain.</li>
+                <li><code>-oX</code> : sortie XML, réutilisable par un outil.</li>
+            </ul>
+
+            <h2>Étape 7 — Comparer avec le firewall</h2>
+
+            <p>
+                Active le pare-feu de la cible, puis relance le scan et
+                observe la différence entre <code>closed</code> et
+                <code>filtered</code>.
+            </p>
+
+            <pre><code>sudo ufw enable
+nmap -p 1-1000 192.168.1.50</code></pre>
+
+            <div class="note-box">
+                <strong>À observer :</strong> un port <code>filtered</code>
+                ne répond pas du tout, alors qu'un port <code>closed</code>
+                renvoie un refus explicite. Cette nuance est précieuse pour un
+                attaquant... et pour un défenseur qui veut rester discret.
+            </div>
+
+            <h2>Synthèse du lab</h2>
+
+            <h3>Ce que tu as appris</h3>
+
+            <ol class="lab-steps">
+                <li>Préparer un scan en identifiant le réseau cible.</li>
+                <li>Découvrir les hôtes actifs sans ouvrir de ports.</li>
+                <li>Lister les ports ouverts et détecter les services.</li>
+                <li>Enregistrer un rapport exploitable.</li>
+                <li>Distinguer un port fermé d'un port filtré.</li>
+            </ol>
+
+            <h3>Questions de validation</h3>
+
+            <ul>
+                <li>Pourquoi <code>-sn</code> ne détecte-t-il pas les services ?</li>
+                <li>Quelle option permet d'identifier une version de logiciel ?</li>
+                <li>Pourquoi un port ouvert inattendu doit-il alerter ?</li>
+                <li>Quelle règle appliquer à un service dont on n'a pas besoin ?</li>
+            </ul>
+
+            <h3>Pour aller plus loin</h3>
+
+            <ul>
+                <li>Relis l'article <a href="../articles/nmap.html">Nmap : premiers pas</a>.</li>
+                <li>Passe au lab <a href="wireshark-capture.html">Wireshark</a> pour voir le scan depuis le réseau.</li>
+                <li>Compare avec <a href="../articles/reseaux.html">Comprendre les ports réseau</a>.</li>
+            </ul>
+
+            <div class="article-footer-nav">
+                <a href="../pages/labs.html" class="btn secondary">← Tous les labs</a>
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">CYBER<span>//</span>LAB</div>
+        <p>Learn. Practice. Defend.</p>
+        <p class="copyright">© 2026 CYBER//LAB — Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

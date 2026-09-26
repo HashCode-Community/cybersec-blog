@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Nmap pour débuter : découverte d'hôtes, scan de ports, détection de services, dans un cadre légal et contrôlé.">
+    <title>Nmap : premiers pas | CYBER//LAB</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            CYBER<span>//</span>LAB
+        </div>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="../pages/articles.html" class="active">Articles</a>
+            <a href="../pages/labs.html">Labs</a>
+            <a href="../pages/roadmap.html">Roadmap</a>
+            <a href="../pages/resources.html">Ressources</a>
+            <a href="../pages/news.html">Actualités</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+
+        <article class="article-full">
+
+            <a href="../pages/articles.html" class="back-link">← Retour aux articles</a>
+
+            <p class="meta">PENTEST • 9 MIN DE LECTURE</p>
+
+            <h1>Nmap : premiers pas</h1>
+
+            <p class="lead">
+                Nmap est le scanner réseau le plus utilisé au monde. Il permet
+                de savoir quelles machines répondent sur un réseau et quels
+                services y sont exposés. C'est souvent la première étape d'un
+                audit — et la première compétence à acquérir.
+            </p>
+
+            <h2>Qu'est-ce que Nmap ?</h2>
+
+            <p>
+                Nmap (Network Mapper) envoie des paquets vers des machines
+                cibles et analyse leurs réponses. Il fournit trois
+                informations essentielles : quels hôtes sont actifs, quels
+                ports sont ouverts et quels services tournent derrière.
+            </p>
+
+            <p>
+                C'est un outil d'audit : les professionnels l'utilisent pour
+                cartographier leur propre réseau et vérifier qu'aucun service
+                non désiré n'est exposé.
+            </p>
+
+            <h2>Installation</h2>
+
+            <p>Sur une distribution basée sur Debian ou Ubuntu :</p>
+
+            <pre><code>sudo apt update
+sudo apt install nmap</code></pre>
+
+            <p>Vérifie ensuite la version installée :</p>
+
+            <pre><code>nmap --version</code></pre>
+
+            <h2>Les scans de base</h2>
+
+            <h3>1. Découvrir les hôtes actifs</h3>
+
+            <p>
+                Le « ping scan » liste les machines qui répondent sur un
+                réseau, sans scanner leurs ports.
+            </p>
+
+            <pre><code>nmap -sn 192.168.1.0/24</code></pre>
+
+            <h3>2. Scanner les ports</h3>
+
+            <p>
+                Sans option, Nmap teste les 1000 ports les plus courants.
+                Pour être plus rapide, tu peux le limiter :
+            </p>
+
+            <pre><code>nmap -p 22,80,443 192.168.1.10</code></pre>
+
+            <h3>3. Identifier les services et versions</h3>
+
+            <pre><code>nmap -sV 192.168.1.10</code></pre>
+
+            <p>
+                <code>-sV</code> détermine quel logiciel écoute sur un port
+                et en quelle version. C'est ce qui permet de repérer un
+                service obsolète.
+            </p>
+
+            <h3>4. Détecter le système d'exploitation</h3>
+
+            <pre><code>nmap -O 192.168.1.10</code></pre>
+
+            <h3>5. Scan complet</h3>
+
+            <pre><code>nmap -A -T4 192.168.1.10</code></pre>
+
+            <p>
+                <code>-A</code> active la détection de version et de système,
+                <code>-T4</code> accélère le scan. En revanche, un scan
+                agressif se remarque : en audit réel, la discrétion compte.
+            </p>
+
+            <h2>Lire un résultat</h2>
+
+            <ul>
+                <li><code>open</code> : un service écoute sur ce port.</li>
+                <li><code>closed</code> : la machine répond, mais rien n'écoute.</li>
+                <li><code>filtered</code> : un pare-feu bloque la réponse.</li>
+            </ul>
+
+            <p>
+                Une ligne du type
+                <code>22/tcp open ssh OpenSSH 9.2</code> signifie que le
+                service SSH, version 9.2, accepte des connexions. Il reste à
+                vérifier que cette version est à jour et que l'accès est
+                protégé.
+            </p>
+
+            <div class="note-box">
+                <strong>Bon réflexe :</strong> compare toujours ce que Nmap
+                découvre avec ce que tu croyais être exposé. Un port ouvert
+                inattendu est le signe d'un service oublié ou d'une
+                compromission.
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠ Usage strictement légal :</strong> scanner un
+                réseau ou un serveur sans autorisation écrite est un délit,
+                même « juste pour voir ». L'entraînement se fait sur ta
+                propre machine virtuelle, sur <code>scanme.nmap.org</code>
+                (mis à disposition par l'équipe Nmap) ou dans un
+                laboratoire dédié.
+            </div>
+
+            <h2>Mets-le en pratique</h2>
+
+            <p>
+                La théorie ne suffit pas : passe au laboratoire guidé pour
+                utiliser Nmap étape par étape, sur une cible légale.
+            </p>
+
+            <div class="article-footer-nav">
+                <a href="../labs/nmap-scan.html" class="btn secondary">Lab : Scanner un réseau avec Nmap →</a>
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">CYBER<span>//</span>LAB</div>
+        <p>Learn. Practice. Defend.</p>
+        <p class="copyright">© 2026 CYBER//LAB — Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

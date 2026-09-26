@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="10 commandes Linux essentielles pour débuter : ls, cd, cat, grep, find, chmod et bien d'autres, expliquées simplement.">
+    <title>10 commandes Linux pour débuter | CYBER//LAB</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            CYBER<span>//</span>LAB
+        </div>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="../pages/articles.html" class="active">Articles</a>
+            <a href="../pages/labs.html">Labs</a>
+            <a href="../pages/roadmap.html">Roadmap</a>
+            <a href="../pages/resources.html">Ressources</a>
+            <a href="../pages/news.html">Actualités</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+
+        <article class="article-full">
+
+            <a href="../pages/articles.html" class="back-link">← Retour aux articles</a>
+
+            <p class="meta">LINUX • 8 MIN DE LECTURE</p>
+
+            <h1>10 commandes Linux pour débuter</h1>
+
+            <p class="lead">
+                La majorité des outils de cybersécurité tournent sous Linux.
+                Avant de penser outils, il faut être à l'aise avec le
+                terminal : voici les dix commandes indispensables pour
+                commencer.
+            </p>
+
+            <h2>Avant de commencer</h2>
+
+            <p>
+                Ouvre un terminal. Le prompt se termine par <code>$</code>
+                pour un utilisateur normal et par <code>#</code> pour
+                l'administrateur (root). Une commande se compose d'un nom,
+                puis d'options (souvent précédées de <code>-</code>) et
+                d'arguments.
+            </p>
+
+            <h2>1. pwd — où suis-je ?</h2>
+
+            <p>Affiche le répertoire courant, ton point de repère dans l'arborescence.</p>
+
+            <pre><code>pwd</code></pre>
+
+            <h2>2. ls — lister le contenu</h2>
+
+            <p>Liste les fichiers du répertoire courant.</p>
+
+            <pre><code>ls -la
+ls -lh /var/log</code></pre>
+
+            <p>
+                <code>-l</code> affiche le détail (permissions, propriétaire,
+                taille), <code>-a</code> inclut les fichiers cachés et
+                <code>-h</code> rend les tailles lisibles.
+            </p>
+
+            <h2>3. cd — se déplacer</h2>
+
+            <pre><code>cd /etc
+cd ..
+cd ~</code></pre>
+
+            <p>
+                <code>..</code> remonte d'un niveau, <code>~</code> va dans
+                ton dossier personnel et <code>cd</code> seul fait pareil.
+            </p>
+
+            <h2>4. cat — lire un fichier</h2>
+
+            <pre><code>cat /etc/hostname</code></pre>
+
+            <p>
+                Affiche le contenu d'un fichier texte dans le terminal.
+                Pour les longs fichiers, préfère <code>less</code>.
+            </p>
+
+            <h2>5. grep — rechercher du texte</h2>
+
+            <pre><code>grep "root" /etc/passwd
+grep -r "password" /etc</code></pre>
+
+            <p>
+                <code>grep</code> filtre les lignes contenant un motif, et
+                <code>-r</code> parcourt les dossiers récursivement. C'est
+                l'outil indispensable pour analyser des logs.
+            </p>
+
+            <h2>6. find — localiser des fichiers</h2>
+
+            <pre><code>find / -name "*.conf" 2>/dev/null</code></pre>
+
+            <p>
+                Recherche par nom, par taille ou par date. Très utile en
+                forensic pour retrouver un fichier modifié récemment.
+            </p>
+
+            <h2>7. chmod — gérer les permissions</h2>
+
+            <pre><code>chmod 644 rapport.txt
+chmod 755 script.sh</code></pre>
+
+            <p>
+                Trois droits : <code>r</code> (lecture), <code>w</code>
+                (écriture), <code>x</code> (exécution), répartis entre
+                propriétaire, groupe et autres. <code>644</code> et
+                <code>755</code> sont les valeurs les plus courantes.
+            </p>
+
+            <h2>8. ps — voir les processus</h2>
+
+            <pre><code>ps aux
+ps aux | grep ssh</code></pre>
+
+            <p>
+                Liste les programmes en cours d'exécution. Combiné à
+                <code>grep</code>, il permet d'isoler un service précis.
+            </p>
+
+            <h2>9. sudo — élever ses privilèges</h2>
+
+            <pre><code>sudo apt update</code></pre>
+
+            <p>
+                Exécute une commande avec les droits d'administrateur.
+                À utiliser avec parcimonie : une commande destructrice
+                lancée avec <code>sudo</code> ne peut pas être annulée.
+            </p>
+
+            <h2>10. man — lire la documentation</h2>
+
+            <pre><code>man nmap</code></pre>
+
+            <p>
+                Affiche le manuel d'une commande. Apprendre à lire
+                <code>man</code> rend autonome : presque toutes les réponses
+                y sont déjà.
+            </p>
+
+            <div class="note-box">
+                <strong>Astuce :</strong> la touche <code>Tab</code>
+                complète automatiquement les noms de fichiers, et la flèche
+                du haut rappelle la commande précédente. Ces deux réflexes
+                font gagner beaucoup de temps.
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠ Attention :</strong> la commande
+                <code>rm -rf</code> supprime définitivement des fichiers,
+                sans confirmation ni corbeille. Vérifie toujours deux fois le
+                chemin avant de valider.
+            </div>
+
+            <h2>À retenir</h2>
+
+            <ul>
+                <li>Dix commandes couvrent la majorité des besoins quotidiens.</li>
+                <li><code>man</code> et <code>--help</code> sont tes meilleurs alliés.</li>
+                <li>Les permissions (<code>chmod</code>) sont au cœur de la sécurité Linux.</li>
+            </ul>
+
+            <div class="article-footer-nav">
+                <a href="nmap.html" class="btn secondary">Article suivant : Nmap →</a>
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">CYBER<span>//</span>LAB</div>
+        <p>Learn. Practice. Defend.</p>
+        <p class="copyright">© 2026 CYBER//LAB — Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Comprendre les ports réseau : à quoi ils servent, différence entre TCP et UDP, ports courants et bonnes pratiques de sécurité.">
+    <title>Comprendre les ports réseau | CYBER//LAB</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            CYBER<span>//</span>LAB
+        </div>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="../pages/articles.html" class="active">Articles</a>
+            <a href="../pages/labs.html">Labs</a>
+            <a href="../pages/roadmap.html">Roadmap</a>
+            <a href="../pages/resources.html">Ressources</a>
+            <a href="../pages/news.html">Actualités</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+
+        <article class="article-full">
+
+            <a href="../pages/articles.html" class="back-link">← Retour aux articles</a>
+
+            <p class="meta">NETWORK • 7 MIN DE LECTURE</p>
+
+            <h1>Comprendre les ports réseau</h1>
+
+            <p class="lead">
+                Un port est une porte logique : c'est par elle qu'un service
+                accepte ou refuse une connexion. Apprendre à lire les ports
+                d'une machine, c'est déjà apprendre à lire une partie de son
+                niveau de sécurité.
+            </p>
+
+            <h2>Une adresse IP ne suffit pas</h2>
+
+            <p>
+                Une adresse IP identifie une machine sur un réseau, mais pas
+                le programme à qui les données sont destinées. Un serveur
+                peut à la fois héberger un site web, un serveur de messagerie
+                et un accès distant. Pour les distinguer, on utilise des
+                <strong>ports</strong> : un numéro codé sur 16 bits, donc
+                compris entre 0 et 65535.
+            </p>
+
+            <p>
+                La combinaison <code>IP:port</code> désigne donc un service
+                précis. Par exemple, <code>192.168.1.10:443</code> pointe
+                vers le service web sécurisé de la machine
+                <code>192.168.1.10</code>.
+            </p>
+
+            <h2>TCP et UDP : deux transports, deux usages</h2>
+
+            <ul>
+                <li>
+                    <strong>TCP</strong> : orienté connexion, il vérifie que
+                    les données arrivent complètes et dans le bon ordre.
+                    Utilisé par le web, la messagerie et SSH.
+                </li>
+                <li>
+                    <strong>UDP</strong> : sans connexion, plus rapide mais
+                    sans garantie de livraison. Utilisé par le DNS, le
+                    streaming et les jeux en ligne.
+                </li>
+            </ul>
+
+            <p>
+                Un même numéro de port peut être utilisé en TCP et en UDP en
+                même temps : chaque protocole possède son propre espace de
+                ports.
+            </p>
+
+            <h2>Les ports que tout débutant doit connaître</h2>
+
+            <ul>
+                <li><code>20 / 21</code> — FTP, transfert de fichiers non chiffré</li>
+                <li><code>22</code> — SSH, administration à distance chiffrée</li>
+                <li><code>25 / 587</code> — SMTP, envoi d'e-mails</li>
+                <li><code>53</code> — DNS, résolution de noms</li>
+                <li><code>80</code> — HTTP, web non chiffré</li>
+                <li><code>443</code> — HTTPS, web chiffré</li>
+                <li><code>3306</code> — MySQL, base de données</li>
+                <li><code>3389</code> — RDP, bureau à distance Windows</li>
+            </ul>
+
+            <div class="note-box">
+                <strong>À retenir :</strong> les ports 0 à 1023 sont dits
+                « bien connus » et réservés aux services standards. Utiliser
+                un port inhabituel n'apporte pas de vraie sécurité : c'est de
+                la discrétion, pas de la protection.
+            </div>
+
+            <h2>Voir les ports ouverts sur ta propre machine</h2>
+
+            <p>
+                Sur Linux, la commande <code>ss</code> liste les ports en
+                écoute. À exécuter uniquement sur ton propre système :
+            </p>
+
+            <pre><code>ss -tulpn</code></pre>
+
+            <ul>
+                <li><code>-t</code> : sockets TCP</li>
+                <li><code>-u</code> : sockets UDP</li>
+                <li><code>-l</code> : uniquement les ports en écoute</li>
+                <li><code>-p</code> : le programme associé</li>
+                <li><code>-n</code> : afficher les numéros au lieu des noms</li>
+            </ul>
+
+            <p>
+                L'adresse <code>127.0.0.1</code> signifie que le service
+                n'est accessible que depuis la machine elle-même, tandis que
+                <code>0.0.0.0</code> indique une écoute sur toutes les
+                interfaces, donc potentiellement depuis le réseau.
+            </p>
+
+            <h2>Pourquoi c'est un enjeu de sécurité</h2>
+
+            <p>
+                Chaque port ouvert est une surface d'attaque. Un service
+                obsolète, mal configuré ou protégé par un mot de passe par
+                défaut peut devenir la porte d'entrée d'une intrusion. La
+                règle est simple : <strong>un service dont on n'a pas besoin
+                ne doit pas être exposé</strong>.
+            </p>
+
+            <ul>
+                <li>Fermer ou désactiver les services inutilisés.</li>
+                <li>Limiter l'écoute à <code>127.0.0.1</code> quand c'est possible.</li>
+                <li>Filtrer les ports entrants avec un pare-feu.</li>
+                <li>Mettre à jour régulièrement les services exposés.</li>
+                <li>Ne jamais exposer directement une base de données à Internet.</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>⚠ Rappel légal :</strong> scanner les ports d'une
+                machine qui ne t'appartient pas est illégal. Entraîne-toi sur
+                ta propre machine virtuelle ou sur une plateforme de
+                laboratoire dédiée.
+            </div>
+
+            <h2>À retenir</h2>
+
+            <ul>
+                <li>Un port identifie un service sur une machine.</li>
+                <li>TCP est fiable, UDP est rapide : les usages diffèrent.</li>
+                <li>Connaître les ports courants aide à repérer une anomalie.</li>
+                <li>Réduire les ports ouverts, c'est réduire la surface d'attaque.</li>
+            </ul>
+
+            <div class="article-footer-nav">
+                <a href="nmap.html" class="btn secondary">Article suivant : Nmap →</a>
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">CYBER<span>//</span>LAB</div>
+        <p>Learn. Practice. Defend.</p>
+        <p class="copyright">© 2026 CYBER//LAB — Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

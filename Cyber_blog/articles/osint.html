@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Introduction à l'OSINT : collecter des informations publiques de manière éthique et légale, et connaître sa surface d'exposition.">
+    <title>Introduction à l'OSINT | CYBER//LAB</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            CYBER<span>//</span>LAB
+        </div>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="../pages/articles.html" class="active">Articles</a>
+            <a href="../pages/labs.html">Labs</a>
+            <a href="../pages/roadmap.html">Roadmap</a>
+            <a href="../pages/resources.html">Ressources</a>
+            <a href="../pages/news.html">Actualités</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+
+        <article class="article-full">
+
+            <a href="../pages/articles.html" class="back-link">← Retour aux articles</a>
+
+            <p class="meta">OSINT • 7 MIN DE LECTURE</p>
+
+            <h1>Introduction à l'OSINT</h1>
+
+            <p class="lead">
+                Avant d'attaquer une machine, on attaque l'information.
+                L'OSINT consiste à rassembler des données publiques pour
+                comprendre une cible. Bien utilisée, c'est surtout une méthode
+                pour mesurer sa propre exposition.
+            </p>
+
+            <h2>Qu'est-ce que l'OSINT ?</h2>
+
+            <p>
+                L'OSINT (Open Source Intelligence) désigne la collecte
+                d'informations à partir de <strong>sources publiques et
+                légales</strong> : sites web, registres officiels, réseaux
+                sociaux, moteurs de recherche, données ouvertes. Ce n'est pas
+                de l'espionnage : tout ce qui est collecté était déjà
+                accessible à tous.
+            </p>
+
+            <p>
+                En cybersécurité, l'OSINT sert à connaître sa propre
+                exposition — la <em>surface d'attaque externe</em> — pour
+                mieux la réduire.
+            </p>
+
+            <h2>Le cycle du renseignement</h2>
+
+            <ol>
+                <li><strong>Cadrer</strong> : quelle question veut-on résoudre ?</li>
+                <li><strong>Collecter</strong> : rassembler les sources pertinentes.</li>
+                <li><strong>Traiter</strong> : nettoyer, dédoublonner, organiser.</li>
+                <li><strong>Analyser</strong> : recouper les informations entre elles.</li>
+                <li><strong>Diffuser</strong> : produire un rapport clair et actionnable.</li>
+            </ol>
+
+            <p>
+                Chaque étape compte. Une collecte massive sans analyse ne
+                produit qu'une accumulation de données, pas du renseignement.
+            </p>
+
+            <h2>Les opérateurs de recherche</h2>
+
+            <p>
+                Les moteurs de recherche permettent des requêtes très précises
+                pour retrouver des fichiers exposés accidentellement.
+            </p>
+
+            <pre><code>site:example.com
+filetype:pdf confidential
+intitle:"index of"</code></pre>
+
+            <ul>
+                <li><code>site:</code> limite la recherche à un domaine.</li>
+                <li><code>filetype:</code> cible un format de fichier.</li>
+                <li><code>intitle:</code> cherche dans le titre des pages.</li>
+            </ul>
+
+            <div class="note-box">
+                <strong>Usage défensif :</strong> ces requêtes servent
+                d'abord à vérifier qu'aucun document interne n'est indexé
+                publiquement sur son propre domaine. C'est un contrôle
+                simple à réaliser et souvent révélateur.
+            </div>
+
+            <h2>Les sources utiles</h2>
+
+            <ul>
+                <li><strong>Registres officiels</strong> : WHOIS, DNS, bases de données d'entreprises.</li>
+                <li><strong>Certificats TLS</strong> : ils révèlent les sous-domaines exposés.</li>
+                <li><strong>Archives web</strong> : versions passées d'un site.</li>
+                <li><strong>Réseaux sociaux</strong> : informations publiées volontairement par les salariés.</li>
+                <li><strong>Bases de vulnérabilités</strong> : CVE, NVD, Exploit-DB.</li>
+            </ul>
+
+            <h2>Un exemple concret : cartographier ses sous-domaines</h2>
+
+            <p>
+                Une organisation publie souvent sans le savoir une liste de
+                sous-domaines via les certificats TLS. La transparence des
+                certificats (Certificate Transparency) rend cette information
+                consultable par tous.
+            </p>
+
+            <pre><code>crt.sh -> %.example.com</code></pre>
+
+            <p>
+                Résultat : une liste de sous-domaines, dont certains oubliés
+                ou mal configurés. Pour l'attaquant, c'est une piste ; pour
+                le défenseur, c'est une checklist de vérification.
+            </p>
+
+            <div class="warning-box">
+                <strong>⚠ Éthique et légalité :</strong> l'OSINT s'arrête là
+                où commence l'intrusion. Ne pas contourner une
+                authentification, ne pas harceler une personne, ne pas
+                collecter de données personnelles sans base légale (RGPD).
+                Collecter ne veut pas dire harceler.
+            </div>
+
+            <h2>OSINT offensif et OSINT défensif</h2>
+
+            <p>
+                Le pentesteur utilise l'OSINT en phase de reconnaissance pour
+                identifier des cibles. Le défenseur utilise les mêmes
+                techniques pour découvrir ce qui est déjà visible de
+                l'extérieur. Les outils sont identiques, l'intention diffère :
+                c'est l'autorisation qui fait la différence.
+            </p>
+
+            <h2>À retenir</h2>
+
+            <ul>
+                <li>L'OSINT exploite uniquement des sources publiques.</li>
+                <li>Le renseignement naît de l'analyse, pas de la collecte brute.</li>
+                <li>Les opérateurs de recherche révèlent des fuites involontaires.</li>
+                <li>La valeur principale de l'OSINT est défensive : connaître son exposition.</li>
+                <li>Respecter la vie privée et le RGPD n'est pas optionnel.</li>
+            </ul>
+
+            <div class="article-footer-nav">
+                <a href="reseaux.html" class="btn secondary">Revenir au premier article : Ports réseau →</a>
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">CYBER<span>//</span>LAB</div>
+        <p>Learn. Practice. Defend.</p>
+        <p class="copyright">© 2026 CYBER//LAB — Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Le pare-feu (firewall) expliqué simplement : son rôle, les types de filtrage et les bonnes pratiques de configuration.">
+    <title>Le pare-feu (firewall) expliqué simplement | CYBER//LAB</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            CYBER<span>//</span>LAB
+        </div>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="../pages/articles.html" class="active">Articles</a>
+            <a href="../pages/labs.html">Labs</a>
+            <a href="../pages/roadmap.html">Roadmap</a>
+            <a href="../pages/resources.html">Ressources</a>
+            <a href="../pages/news.html">Actualités</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+
+        <article class="article-full">
+
+            <a href="../pages/articles.html" class="back-link">← Retour aux articles</a>
+
+            <p class="meta">DÉFENSE • 7 MIN DE LECTURE</p>
+
+            <h1>Le pare-feu (firewall) expliqué simplement</h1>
+
+            <p class="lead">
+                Un pare-feu est souvent la première barrière qu'un attaquant
+                rencontre. Comprendre comment il prend ses décisions permet de
+                le configurer sans l'ouvrir inutilement — et sans croire qu'il
+                protège de tout.
+            </p>
+
+            <h2>Ce qu'est un pare-feu</h2>
+
+            <p>
+                Un pare-feu (firewall) est un filtre placé sur le chemin du
+                trafic réseau. Son rôle : autoriser, bloquer ou journaliser
+                les communications selon un ensemble de règles. C'est la
+                brique de base de toute défense périmétrique.
+            </p>
+
+            <p>
+                Il travaille en général sur le couple
+                <code>adresse IP / port / protocole</code>. Par exemple :
+                « j'autorise les connexions vers le port 443 depuis
+                Internet, mais je bloque tout le reste ».
+            </p>
+
+            <h2>Trois grandes familles</h2>
+
+            <ul>
+                <li>
+                    <strong>Pare-feu réseau</strong> : protège un réseau
+                    complet. C'est le cas des routeurs ou des appliances
+                    dédiées.
+                </li>
+                <li>
+                    <strong>Pare-feu local</strong> : installé sur une
+                    machine et filtre son propre trafic, entrant comme
+                    sortant.
+                </li>
+                <li>
+                    <strong>Pare-feu applicatif (WAF)</strong> : analyse
+                    le contenu des requêtes web pour bloquer les attaques
+                    applicatives, comme les injections.
+                </li>
+            </ul>
+
+            <h2>Deux logiques de filtrage</h2>
+
+            <h3>Le filtrage statique</h3>
+
+            <p>
+                Les règles sont définies à l'avance et ne changent pas. Simple
+                et rapide, mais il ne tient pas compte de l'état de la
+                connexion. Pour chaque paquet, il réévalue toutes les règles,
+                ce qui oblige à en ouvrir des deux côtés.
+            </p>
+
+            <h3>Le filtrage dynamique (avec état)</h3>
+
+            <p>
+                Le pare-feu suit l'état des connexions. Si une session
+                sortante est autorisée, les réponses entrantes le sont
+                automatiquement le temps de cette session. C'est la logique
+                utilisée par les pare-feux modernes.
+            </p>
+
+            <h2>Un exemple de règle</h2>
+
+            <pre><code>sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 22/tcp
+sudo ufw allow 443/tcp
+sudo ufw enable</code></pre>
+
+            <p>
+                Ce jeu de règles bloques tout le trafic entrant par défaut,
+                puis n'ouvre que SSH (22) et HTTPS (443). Ce principe
+                s'appelle le <strong>refus par défaut</strong> : on autorise
+                explicitement ce dont on a besoin, jamais l'inverse.
+            </p>
+
+            <div class="note-box">
+                <strong>Principe de moindre privilège :</strong> une règle
+                doit autoriser le strict nécessaire. « Tout ouvrir pour être
+                sûr que ça marche » est exactement l'erreur à éviter.
+            </div>
+
+            <h2>Ce qu'un pare-feu ne fait pas</h2>
+
+            <ul>
+                <li>Il ne protège pas d'une attaque venue de l'intérieur.</li>
+                <li>Il ne corrige pas une application vulnérable.</li>
+                <li>Il n'empêche pas un utilisateur de cliquer sur un lien piégé.</li>
+                <li>Il ne remplace pas la mise à jour des logiciels.</li>
+            </ul>
+
+            <p>
+                Le pare-feu est une couche dans une stratégie globale. La
+                sécurité en profondeur consiste à superposer les défenses
+                plutôt qu'à tout miser sur une seule.
+            </p>
+
+            <h2>Bonne pratique : journaliser</h2>
+
+            <p>
+                Les journaux du pare-feu racontent l'histoire des tentatives
+                de connexion. Les consulter permet de repérer un scan réseau
+                ou une tentative répétée sur un même port.
+            </p>
+
+            <pre><code>sudo tail -f /var/log/ufw.log</code></pre>
+
+            <h2>À retenir</h2>
+
+            <ul>
+                <li>Le pare-feu filtre le trafic selon IP, port et protocole.</li>
+                <li>Le refus par défaut est la posture la plus sûre.</li>
+                <li>Un pare-feu complète les autres défenses, il ne les remplace pas.</li>
+                <li>Les logs sont une source d'information précieuse.</li>
+            </ul>
+
+            <div class="article-footer-nav">
+                <a href="cryptographie.html" class="btn secondary">Article suivant : Cryptographie →</a>
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">CYBER<span>//</span>LAB</div>
+        <p>Learn. Practice. Defend.</p>
+        <p class="copyright">© 2026 CYBER//LAB — Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

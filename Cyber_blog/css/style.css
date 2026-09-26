@@ -1,0 +1,1978 @@
+/* =========================================
+   CYBER//LAB — GLOBAL STYLE
+========================================= */
+
+/* ---------- RESET ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Courier New", monospace;
+    background: #050807;
+    color: #e6e6e6;
+    line-height: 1.6;
+}
+
+/* ---------- VARIABLES ---------- */
+
+:root {
+    --bg: #050807;
+    --bg-light: #0a100d;
+    --card: #0b120f;
+    --green: #00ff88;
+    --green-dark: #00b85c;
+    --text: #e6e6e6;
+    --muted: #84918b;
+    --border: rgba(0, 255, 136, 0.2);
+
+    /* ANIMATIONS */
+    --ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --speed: 0.35s;
+    --speed-slow: 0.75s;
+}
+
+/* ---------- LINKS ---------- */
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar {
+    width: 100%;
+    min-height: 75px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    background: rgba(5, 8, 7, 0.95);
+
+    border-bottom: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    backdrop-filter: blur(10px);
+
+    transition:
+        min-height var(--speed) var(--ease),
+        background-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease);
+}
+
+/* LOGO */
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.logo span,
+footer span {
+    color: var(--green);
+}
+
+/* NAVIGATION */
+
+.navbar nav {
+    display: flex;
+    gap: 28px;
+}
+
+.navbar nav a {
+    position: relative;
+
+    color: var(--muted);
+    font-size: 0.85rem;
+
+    transition:
+        color var(--speed) var(--ease),
+        text-shadow var(--speed) var(--ease);
+}
+
+.navbar nav a:hover,
+.navbar nav a.active {
+    color: var(--green);
+}
+
+.navbar nav a.active {
+    text-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+}
+
+/* MOBILE MENU BUTTON */
+
+.menu-btn {
+    display: none;
+
+    background: transparent;
+    border: 1px solid var(--border);
+
+    color: var(--green);
+
+    padding: 8px 12px;
+
+    font-size: 1.2rem;
+
+    cursor: pointer;
+
+    transition:
+        color var(--speed) var(--ease),
+        border-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease);
+}
+
+.menu-btn:hover {
+    border-color: var(--green);
+
+    box-shadow: 0 0 18px rgba(0, 255, 136, 0.25);
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero {
+    min-height: 700px;
+
+    padding: 100px 7%;
+
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+
+    align-items: center;
+
+    gap: 80px;
+
+    position: relative;
+    overflow: hidden;
+}
+
+/* BACKGROUND EFFECT */
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    background: var(--green);
+
+    opacity: 0.04;
+
+    border-radius: 50%;
+
+    filter: blur(100px);
+
+    top: 50px;
+    left: -100px;
+}
+
+/* HERO CONTENT */
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.terminal-text {
+    color: var(--green);
+
+    font-size: 0.9rem;
+
+    margin-bottom: 20px;
+
+    letter-spacing: 2px;
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 7vw, 6rem);
+
+    line-height: 1;
+
+    margin-bottom: 30px;
+
+    letter-spacing: -3px;
+}
+
+.hero h1 span {
+    color: var(--green);
+}
+
+.hero-description {
+    max-width: 600px;
+
+    color: var(--muted);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 1rem;
+
+    margin-bottom: 40px;
+}
+
+/* BUTTONS */
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+
+    flex-wrap: wrap;
+}
+
+.btn {
+    position: relative;
+
+    display: inline-block;
+
+    overflow: hidden;
+
+    padding: 13px 22px;
+
+    border: 1px solid var(--green);
+
+    font-size: 0.85rem;
+
+    transition:
+        transform var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease),
+        background-color var(--speed) var(--ease);
+}
+
+.btn.primary {
+    background: var(--green);
+    color: #031109;
+}
+
+.btn.primary:hover {
+    box-shadow: 0 0 25px rgba(0, 255, 136, 0.35);
+}
+
+.btn.secondary {
+    color: var(--green);
+}
+
+.btn.secondary:hover {
+    background: rgba(0, 255, 136, 0.08);
+}
+
+/* =========================================
+   TERMINAL
+========================================= */
+
+.terminal {
+    background: #030504;
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        0 0 30px rgba(0, 255, 136, 0.08);
+
+    position: relative;
+
+    z-index: 2;
+
+    overflow: hidden;
+}
+
+.terminal-header {
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 0 15px;
+
+    background: #0a0f0c;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.terminal-header p {
+    color: var(--muted);
+
+    font-size: 0.75rem;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.terminal-dots span {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: var(--muted);
+}
+
+.terminal-body {
+    padding: 25px;
+
+    font-size: 0.8rem;
+
+    min-height: 350px;
+}
+
+.terminal-body p {
+    margin-bottom: 15px;
+}
+
+.green {
+    color: var(--green);
+}
+
+.terminal-output {
+    color: #aab5af;
+
+    margin-left: 10px;
+}
+
+.cursor {
+    color: var(--green);
+
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   SECTION GLOBAL
+========================================= */
+
+section.categories,
+section.latest {
+    padding: 100px 7%;
+}
+
+.section-title {
+    margin-bottom: 50px;
+}
+
+.section-title p {
+    color: var(--green);
+
+    font-size: 0.8rem;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 10px;
+}
+
+.section-title h2 {
+    font-size: 2.5rem;
+}
+
+.section-title h2 span {
+    color: var(--green);
+}
+
+/* =========================================
+   CATEGORIES
+========================================= */
+
+.categories {
+    background: var(--bg-light);
+
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.category-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+.category-card {
+    background: var(--card);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    padding: 30px;
+
+    min-height: 250px;
+
+    transition:
+        transform var(--speed) var(--ease),
+        border-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.category-card:hover {
+    border-color: var(--green);
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 10px 40px rgba(0, 255, 136, 0.08);
+}
+
+.category-card .icon {
+    color: var(--green);
+
+    font-size: 0.8rem;
+
+    margin-bottom: 35px;
+}
+
+.category-card h3 {
+    font-size: 1.2rem;
+
+    margin-bottom: 12px;
+}
+
+.category-card p {
+    color: var(--muted);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 0.85rem;
+}
+
+.category-card span {
+    margin-top: auto;
+
+    color: var(--green);
+
+    font-size: 0.75rem;
+}
+
+/* =========================================
+   ARTICLES
+========================================= */
+
+.articles-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.article-card {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    background: var(--card);
+
+    padding: 30px;
+
+    min-height: 280px;
+
+    transition:
+        transform var(--speed) var(--ease),
+        border-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease);
+}
+
+.article-card:hover {
+    border-color: var(--green);
+
+    transform: translateY(-5px);
+}
+
+.article-tag {
+    color: var(--green);
+
+    font-size: 0.7rem;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 25px;
+}
+
+.article-card h3 {
+    font-size: 1.2rem;
+
+    margin-bottom: 15px;
+}
+
+.article-card p {
+    color: var(--muted);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 0.85rem;
+
+    margin-bottom: 25px;
+}
+
+.article-card a {
+    color: var(--green);
+
+    font-size: 0.75rem;
+}
+
+/* =========================================
+   CTA
+========================================= */
+
+.cta {
+    margin: 50px 7% 100px;
+
+    padding: 80px 40px;
+
+    text-align: center;
+
+    border: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 255, 136, 0.05),
+            transparent
+        );
+}
+
+.cta > p:first-child {
+    color: var(--green);
+
+    font-size: 0.8rem;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 20px;
+}
+
+.cta h2 {
+    font-size: 2.5rem;
+
+    margin-bottom: 15px;
+}
+
+.cta h2 span {
+    color: var(--green);
+}
+
+.cta p {
+    color: var(--muted);
+
+    margin-bottom: 30px;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    padding: 50px 7%;
+
+    border-top: 1px solid var(--border);
+
+    text-align: center;
+
+    color: var(--muted);
+}
+
+.footer-logo {
+    color: var(--text);
+
+    font-size: 1.3rem;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+}
+
+footer p {
+    font-size: 0.8rem;
+}
+
+.copyright {
+    margin-top: 25px;
+
+    color: #4d5752;
+}
+
+/* =========================================
+   PAGE HEADER (pages internes)
+========================================= */
+
+.page-header {
+    padding: 140px 7% 60px;
+}
+
+.page-header p.tag {
+    color: var(--green);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.page-header h1 {
+    font-size: clamp(2.2rem, 5vw, 3.3rem);
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+
+.page-header h1 span {
+    color: var(--green);
+}
+
+.page-header .lead {
+    max-width: 700px;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: var(--green);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   FILTER TAGS (articles)
+========================================= */
+
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0 7% 40px;
+}
+
+.filter-tags span {
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    padding: 8px 14px;
+}
+
+.articles-section,
+.labs-section {
+    padding: 0 0 100px;
+}
+
+/* =========================================
+   LAB CARDS
+========================================= */
+
+.lab-card .lab-level {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.lab-level.beginner { color: var(--green); }
+.lab-level.intermediate { color: #ffcc66; }
+.lab-level.advanced { color: #ff5c5c; }
+
+.lab-card.locked {
+    opacity: 0.45;
+}
+
+.lab-card .soon {
+    color: var(--muted);
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+}
+
+/* =========================================
+   ARTICLE FULL (page de lecture)
+========================================= */
+
+.article-full {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 140px 7% 100px;
+}
+
+.article-full .meta {
+    color: var(--green);
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.article-full h1 {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    line-height: 1.2;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.article-full .lead {
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 1.05rem;
+    margin-bottom: 45px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+}
+
+.article-full h2 {
+    font-size: 1.5rem;
+    color: var(--green);
+    margin: 45px 0 18px;
+}
+
+.article-full h3 {
+    font-size: 1.15rem;
+    margin: 28px 0 12px;
+}
+
+.article-full p {
+    font-family: Arial, sans-serif;
+    color: #cfd6d2;
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+}
+
+.article-full ul,
+.article-full ol {
+    font-family: Arial, sans-serif;
+    color: #cfd6d2;
+    font-size: 0.95rem;
+    margin: 0 0 20px 22px;
+}
+
+.article-full li {
+    margin-bottom: 8px;
+}
+
+.article-full code {
+    background: rgba(0, 255, 136, 0.08);
+    color: var(--green);
+    padding: 2px 6px;
+    font-family: "Courier New", monospace;
+    font-size: 0.85em;
+    border-radius: 2px;
+}
+
+.article-full pre {
+    background: #030504;
+    border: 1px solid var(--border);
+    padding: 20px;
+    overflow-x: auto;
+    margin-bottom: 22px;
+    font-size: 0.82rem;
+}
+
+.article-full pre code {
+    background: none;
+    padding: 0;
+    color: var(--text);
+}
+
+.note-box,
+.warning-box {
+    border-left: 3px solid var(--green);
+    background: rgba(0, 255, 136, 0.05);
+    padding: 18px 22px;
+    margin: 28px 0;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.warning-box {
+    border-left-color: #ff5c5c;
+    background: rgba(255, 92, 92, 0.06);
+}
+
+.warning-box strong {
+    color: #ff8080;
+}
+
+.article-footer-nav {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+}
+
+/* =========================================
+   ROADMAP
+========================================= */
+
+.roadmap-timeline {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 7% 110px;
+}
+
+.roadmap-step {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 30px;
+    padding-bottom: 55px;
+    position: relative;
+}
+
+.roadmap-step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 34px;
+    top: 70px;
+    bottom: -15px;
+    width: 1px;
+    background: var(--border);
+}
+
+.roadmap-num {
+    width: 70px;
+    height: 70px;
+    border: 1px solid var(--green);
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: var(--card);
+}
+
+.roadmap-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.roadmap-content p {
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.roadmap-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.roadmap-tags span {
+    border: 1px solid var(--border);
+    color: var(--green);
+    font-size: 0.7rem;
+    padding: 5px 10px;
+}
+
+/* =========================================
+   RESOURCES
+========================================= */
+
+.resources-section {
+    padding: 20px 7% 110px;
+}
+
+.resource-group {
+    margin-bottom: 60px;
+}
+
+.resource-group h2 {
+    font-size: 1.35rem;
+    color: var(--green);
+    margin-bottom: 22px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.resource-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.resource-item {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--card);
+    padding: 22px;
+
+    transition:
+        transform var(--speed) var(--ease),
+        border-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease);
+}
+
+.resource-item:hover {
+    border-color: var(--green);
+    transform: translateY(-3px);
+}
+
+.resource-item h4 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.resource-item p {
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 0.82rem;
+    margin-bottom: 12px;
+}
+
+.resource-item a {
+    color: var(--green);
+    font-size: 0.75rem;
+}
+
+/* =========================================
+   NEWS
+========================================= */
+
+.news-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 7% 110px;
+}
+
+.news-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 32px 0;
+}
+
+.news-item .date {
+    color: var(--green);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.news-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+}
+
+.news-item p {
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   LAB DÉTAILLÉ (page de laboratoire)
+========================================= */
+
+.lab-header-level {
+    display: inline-block;
+
+    border: 1px solid currentColor;
+
+    padding: 6px 12px;
+
+    font-size: 0.7rem;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 22px;
+}
+
+.lab-header-level.beginner { color: var(--green); }
+.lab-header-level.intermediate { color: #ffcc66; }
+.lab-header-level.advanced { color: #ff5c5c; }
+
+.lab-info {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin: 30px 0 45px;
+}
+
+.lab-info > div {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    background: var(--card);
+
+    padding: 18px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 0.82rem;
+
+    color: var(--muted);
+}
+
+.lab-info strong {
+    display: block;
+
+    color: var(--green);
+
+    font-family: "Courier New", monospace;
+
+    font-size: 0.72rem;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 8px;
+}
+
+.article-full .lab-steps {
+    counter-reset: labstep;
+
+    list-style: none;
+
+    margin: 0 0 25px;
+
+    padding-left: 0;
+}
+
+.article-full .lab-steps li {
+    position: relative;
+
+    padding-left: 46px;
+
+    margin-bottom: 20px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 0.95rem;
+
+    color: #cfd6d2;
+}
+
+.article-full .lab-steps li::before {
+    counter-increment: labstep;
+
+    content: counter(labstep, decimal-leading-zero);
+
+    position: absolute;
+
+    left: 0;
+
+    top: -2px;
+
+    color: var(--green);
+
+    font-family: "Courier New", monospace;
+
+    font-size: 0.78rem;
+
+    border: 1px solid var(--border);
+
+    padding: 2px 7px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .hero {
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .articles-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resource-list {
+        grid-template-columns: 1fr;
+    }
+
+    .roadmap-step {
+        grid-template-columns: 50px 1fr;
+        gap: 18px;
+    }
+
+    .roadmap-num {
+        width: 50px;
+        height: 50px;
+        font-size: 1rem;
+    }
+
+    .roadmap-step:not(:last-child)::before {
+        left: 24px;
+    }
+
+    .lab-info {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .navbar {
+        padding: 0 5%;
+    }
+
+    .navbar nav {
+        display: none;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .hero {
+        padding: 80px 5%;
+    }
+
+    .hero h1 {
+        font-size: 3.5rem;
+    }
+
+    section.categories,
+    section.latest {
+        padding: 70px 5%;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta {
+        margin: 30px 5% 70px;
+
+        padding: 60px 25px;
+    }
+
+    .cta h2 {
+        font-size: 2rem;
+    }
+
+}
+
+/* =========================================
+   ANIMATIONS — KEYFRAMES
+========================================= */
+
+/* Apparition vers le haut */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apparition vers le bas (navbar, en-têtes de page) */
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Simple fondu */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Entrée depuis la droite (terminal du hero) */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(45px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Halo vert qui respire */
+@keyframes glowPulse {
+    0%,
+    100% {
+        opacity: 0.04;
+    }
+
+    50% {
+        opacity: 0.1;
+    }
+}
+
+/* Grille de fond qui défile */
+@keyframes gridMove {
+    from {
+        background-position: 0 0, 0 0;
+    }
+
+    to {
+        background-position: 44px 44px, 44px 44px;
+    }
+}
+
+/* Ligne de scan du terminal */
+@keyframes scanline {
+    from {
+        background-position: 0 -120%;
+    }
+
+    to {
+        background-position: 0 120%;
+    }
+}
+
+/* Points du terminal */
+@keyframes dotPulse {
+    0%,
+    100% {
+        opacity: 0.35;
+        background: var(--muted);
+    }
+
+    50% {
+        opacity: 1;
+        background: var(--green);
+    }
+}
+
+/* Reflet qui balaye un élément */
+@keyframes shine {
+    from {
+        transform: translateX(-140%) skewX(-20deg);
+    }
+
+    to {
+        transform: translateX(260%) skewX(-20deg);
+    }
+}
+
+/* Trait vertical de la roadmap qui pousse */
+@keyframes lineGrow {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* Dégradé du CTA */
+@keyframes gradientShift {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Respiration néon (text-shadow) */
+@keyframes neonPulse {
+    0%,
+    100% {
+        text-shadow: 0 0 14px rgba(0, 255, 136, 0.25);
+    }
+
+    50% {
+        text-shadow: 0 0 28px rgba(0, 255, 136, 0.6);
+    }
+}
+
+/* Scintillement CRT très léger */
+@keyframes crtFlicker {
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    47% {
+        opacity: 0.44;
+    }
+
+    50% {
+        opacity: 0.58;
+    }
+
+    53% {
+        opacity: 0.44;
+    }
+}
+
+/* Ouverture du menu mobile */
+@keyframes menuDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Progression de lecture */
+@keyframes progressGrow {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* =========================================
+   ANIMATIONS — INTERFACE
+========================================= */
+
+/* ---------- NAVBAR ---------- */
+
+.navbar {
+    animation: fadeDown 0.6s var(--ease-out) both;
+}
+
+/* Navbar compacte une fois la page scrollée */
+.navbar.scrolled {
+    min-height: 62px;
+
+    background: rgba(5, 8, 7, 0.98);
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Soulignement qui se déploie au survol */
+.navbar nav a::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+
+    width: 100%;
+    height: 1px;
+
+    background: var(--green);
+
+    box-shadow: 0 0 8px var(--green);
+
+    transform: scaleX(0);
+    transform-origin: left;
+
+    transition: transform 0.35s var(--ease-out);
+}
+
+.navbar nav a:hover::after,
+.navbar nav a.active::after {
+    transform: scaleX(1);
+}
+
+/* Logo : le signe // respire */
+.logo span {
+    animation: neonPulse 4.5s ease-in-out infinite;
+}
+
+/* ---------- HERO ---------- */
+
+.hero::before {
+    animation: glowPulse 9s ease-in-out infinite;
+}
+
+/* Grille technique en arrière-plan */
+.hero::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(rgba(0, 255, 136, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.055) 1px, transparent 1px);
+
+    background-size: 44px 44px;
+
+    mask-image: radial-gradient(circle at 50% 45%, #000 0%, transparent 72%);
+    -webkit-mask-image: radial-gradient(circle at 50% 45%, #000 0%, transparent 72%);
+
+    pointer-events: none;
+
+    z-index: 1;
+
+    animation: gridMove 18s linear infinite;
+}
+
+/* Apparition en cascade du contenu */
+.terminal-text {
+    animation: fadeUp 0.6s var(--ease-out) both;
+}
+
+.hero h1 {
+    animation: fadeUp 0.7s var(--ease-out) 0.12s both;
+}
+
+.hero-description {
+    animation: fadeUp 0.7s var(--ease-out) 0.22s both;
+}
+
+.hero-buttons {
+    animation: fadeUp 0.7s var(--ease-out) 0.32s both;
+}
+
+.hero h1 span {
+    animation:
+        fadeIn 1s ease 0.5s both,
+        neonPulse 4.5s ease-in-out 1.4s infinite;
+}
+
+/* ---------- TERMINAL ---------- */
+
+.terminal {
+    animation: slideInRight 0.8s var(--ease-out) 0.15s both;
+}
+
+/* Ligne de scan qui descend lentement */
+.terminal::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image: linear-gradient(
+        180deg,
+        rgba(0, 255, 136, 0) 0%,
+        rgba(0, 255, 136, 0.06) 40%,
+        rgba(0, 255, 136, 0.3) 50%,
+        rgba(0, 255, 136, 0.06) 60%,
+        rgba(0, 255, 136, 0) 100%
+    );
+
+    background-repeat: no-repeat;
+    background-size: 100% 90px;
+    background-position: 0 -120%;
+
+    pointer-events: none;
+
+    z-index: 3;
+
+    animation: scanline 6s linear 1s infinite;
+}
+
+/* Les lignes de commande s'affichent l'une après l'autre */
+.terminal-body p {
+    animation: fadeUp 0.5s var(--ease-out) both;
+}
+
+.terminal-body p:nth-child(1) { animation-delay: 0.3s; }
+.terminal-body p:nth-child(2) { animation-delay: 0.4s; }
+.terminal-body p:nth-child(3) { animation-delay: 0.5s; }
+.terminal-body p:nth-child(4) { animation-delay: 0.6s; }
+.terminal-body p:nth-child(5) { animation-delay: 0.7s; }
+
+/* Les 3 pastilles clignotent en boucle */
+.terminal-dots span {
+    animation: dotPulse 2.4s ease-in-out infinite;
+}
+
+.terminal-dots span:nth-child(1) { animation-delay: 0s; }
+.terminal-dots span:nth-child(2) { animation-delay: 0.3s; }
+.terminal-dots span:nth-child(3) { animation-delay: 0.6s; }
+
+/* Curseur : clignotement net + lueur */
+.cursor {
+    animation: blink 1.1s steps(1, end) infinite;
+
+    text-shadow: 0 0 10px var(--green);
+}
+
+/* ---------- BOUTONS ---------- */
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.btn.primary:hover {
+    filter: brightness(1.08);
+}
+
+/* Reflet qui balaye le bouton */
+.btn::after {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 45%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+
+    pointer-events: none;
+
+    transform: translateX(-140%) skewX(-20deg);
+}
+
+.btn:hover::after {
+    animation: shine 0.8s var(--ease-out);
+}
+
+/* ---------- TITRES DE SECTION ---------- */
+
+/* Petit curseur qui clignote après > EXPLORE_ */
+.section-title p::after {
+    content: "▌";
+
+    margin-left: 4px;
+
+    color: var(--green);
+
+    animation: blink 1.1s steps(1, end) infinite;
+}
+
+/* En-têtes de pages internes : apparition en cascade */
+.page-header p.tag {
+    animation: fadeUp 0.6s var(--ease-out) both;
+}
+
+.page-header h1 {
+    animation: fadeUp 0.7s var(--ease-out) 0.1s both;
+}
+
+.page-header .lead {
+    animation: fadeUp 0.7s var(--ease-out) 0.2s both;
+}
+
+.filter-tags {
+    animation: fadeUp 0.7s var(--ease-out) 0.3s both;
+}
+
+/* ---------- CARTES & LISTES ---------- */
+
+.article-card,
+.category-card,
+.resource-item {
+    position: relative;
+
+    overflow: hidden;
+}
+
+/* Halo lumineux qui traverse la carte au survol */
+.article-card::after,
+.category-card::after,
+.resource-item::after {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 40%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 255, 136, 0.08),
+        transparent
+    );
+
+    pointer-events: none;
+
+    transform: translateX(-160%) skewX(-18deg);
+}
+
+.article-card:hover::after,
+.category-card:hover::after,
+.resource-item:hover::after {
+    animation: shine 0.9s var(--ease-out);
+}
+
+/* Flèche "Read article →" qui coulisse */
+.article-card a,
+.resource-item a {
+    display: inline-block;
+
+    transition:
+        translate var(--speed) var(--ease),
+        color var(--speed) var(--ease),
+        text-shadow var(--speed) var(--ease);
+}
+
+.article-card:hover a,
+.resource-item:hover a {
+    translate: 5px 0;
+
+    text-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+}
+
+.category-card span {
+    transition:
+        translate var(--speed) var(--ease),
+        text-shadow var(--speed) var(--ease);
+}
+
+.category-card:hover span {
+    translate: 5px 0;
+
+    text-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+}
+
+/* Les labs verrouillés ne réagissent pas au survol */
+.lab-card.locked:hover {
+    transform: none;
+
+    border-color: rgba(255, 255, 255, 0.06);
+
+    box-shadow: none;
+}
+
+.lab-card.locked::after {
+    display: none;
+}
+
+/* ---------- FILTRES & TAGS ---------- */
+
+.filter-tags span,
+.roadmap-tags span {
+    transition:
+        color var(--speed) var(--ease),
+        border-color var(--speed) var(--ease),
+        background-color var(--speed) var(--ease),
+        transform var(--speed) var(--ease);
+}
+
+.filter-tags span:hover,
+.roadmap-tags span:hover {
+    color: var(--green);
+
+    border-color: var(--green);
+
+    background: rgba(0, 255, 136, 0.07);
+
+    transform: translateY(-2px);
+}
+
+/* ---------- ACTUALITÉS ---------- */
+
+.news-item {
+    transition:
+        transform var(--speed) var(--ease),
+        border-color var(--speed) var(--ease);
+}
+
+.news-item:hover {
+    transform: translateX(6px);
+
+    border-bottom-color: var(--border);
+}
+
+/* ---------- CONTENU DES ARTICLES ---------- */
+
+/* Liens cliquables bien visibles dans le texte */
+.article-full p a,
+.note-box a,
+.warning-box a {
+    color: var(--green);
+
+    border-bottom: 1px solid rgba(0, 255, 136, 0.35);
+
+    transition:
+        border-color var(--speed) var(--ease),
+        text-shadow var(--speed) var(--ease);
+}
+
+.article-full p a:hover,
+.note-box a:hover,
+.warning-box a:hover {
+    border-bottom-color: var(--green);
+
+    text-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+}
+
+/* Bloc de code : léger halo au survol */
+.article-full pre {
+    transition:
+        border-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease);
+}
+
+.article-full pre:hover {
+    border-color: rgba(0, 255, 136, 0.4);
+
+    box-shadow: 0 0 26px rgba(0, 255, 136, 0.07);
+}
+
+/* Retour : lueur au survol */
+.back-link {
+    transition:
+        color var(--speed) var(--ease),
+        text-shadow var(--speed) var(--ease);
+}
+
+.back-link:hover {
+    text-shadow: 0 0 12px rgba(0, 255, 136, 0.45);
+}
+
+/* ---------- CTA ---------- */
+
+.cta {
+    background-size: 200% 200%;
+
+    animation: gradientShift 9s ease-in-out infinite;
+}
+
+.cta h2 span {
+    animation: neonPulse 4.5s ease-in-out infinite;
+}
+
+/* ---------- ROADMAP ---------- */
+
+.roadmap-num {
+    transition:
+        transform var(--speed) var(--ease),
+        background-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease);
+}
+
+.roadmap-step:hover .roadmap-num {
+    transform: rotate(-4deg) scale(1.06);
+
+    background: rgba(0, 255, 136, 0.08);
+
+    box-shadow: 0 0 24px rgba(0, 255, 136, 0.25);
+}
+
+/* Le trait vertical pousse à l'apparition de l'étape */
+.roadmap-step.reveal-in:not(:last-child)::before {
+    transform-origin: top;
+
+    animation: lineGrow 1s var(--ease-out) both;
+}
+
+/* ---------- APPARITION AU SCROLL (activée par main.js) ---------- */
+
+.reveal {
+    transition:
+        opacity var(--speed-slow) var(--ease-out),
+        translate var(--speed-slow) var(--ease-out);
+}
+
+/* État de départ : uniquement si l'élément est hors écran */
+.reveal.reveal-pending {
+    opacity: 0;
+
+    translate: 0 28px;
+}
+
+/* Les cartes gardent en plus leur transition de survol */
+.article-card.reveal,
+.category-card.reveal,
+.resource-item.reveal {
+    transition:
+        opacity var(--speed-slow) var(--ease-out),
+        translate var(--speed-slow) var(--ease-out),
+        transform var(--speed) var(--ease),
+        border-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease);
+}
+
+/* =========================================
+   ANIMATIONS — DÉTAILS D'AMBIANCE
+========================================= */
+
+/* ---------- MENU MOBILE ---------- */
+
+@media (max-width: 700px) {
+
+    .navbar nav.nav-open {
+        display: flex;
+        flex-direction: column;
+
+        position: absolute;
+        top: 100%;
+        right: 5%;
+
+        min-width: 210px;
+
+        gap: 16px;
+
+        padding: 20px;
+
+        background: rgba(5, 8, 7, 0.98);
+
+        border: 1px solid var(--border);
+
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
+
+        transform-origin: top right;
+
+        animation: menuDrop 0.32s var(--ease-out) both;
+    }
+
+    .navbar nav.nav-open a {
+        padding: 2px 0;
+    }
+
+}
+
+/* ---------- SÉLECTION & SCROLLBAR ---------- */
+
+::selection {
+    background: rgba(0, 255, 136, 0.25);
+
+    color: #ffffff;
+}
+
+html {
+    scrollbar-color: rgba(0, 255, 136, 0.35) #050807;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #050807;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 136, 0.25);
+
+    border: 2px solid #050807;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 136, 0.45);
+}
+
+/* ---------- AMBIANCE ÉCRAN CRT ---------- */
+
+body::after {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 136, 0.035) 0 1px,
+        transparent 1px 4px
+    );
+
+    pointer-events: none;
+
+    z-index: 1200;
+
+    animation: crtFlicker 7s steps(1, end) infinite;
+}
+
+/* ---------- BARRE DE PROGRESSION DE LECTURE ---------- */
+/* Uniquement sur les navigateurs qui gèrent les animations liées au scroll */
+
+@supports (animation-timeline: scroll()) {
+
+    html::after {
+        content: "";
+
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 2px;
+
+        background: linear-gradient(90deg, var(--green-dark), var(--green));
+
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+
+        pointer-events: none;
+
+        z-index: 1100;
+
+        animation: progressGrow 1s linear;
+        animation-timeline: scroll(root);
+    }
+
+}
+
+/* =========================================
+   ACCESSIBILITÉ — MOUVEMENT RÉDUIT
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-delay: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        transition-delay: 0.001ms !important;
+    }
+
+    .reveal.reveal-pending {
+        opacity: 1;
+
+        translate: none;
+    }
+
+}

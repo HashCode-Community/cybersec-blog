@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="CYBER//LAB - Laboratoires pratiques pour apprendre la cybersécurité en s'exerçant.">
+    <title>Labs | CYBER//LAB</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            CYBER<span>//</span>LAB
+        </div>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="articles.html">Articles</a>
+            <a href="labs.html" class="active">Labs</a>
+            <a href="roadmap.html">Roadmap</a>
+            <a href="resources.html">Ressources</a>
+            <a href="news.html">Actualités</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+
+        <section class="page-header">
+            <p class="tag">> PRACTICE_ENVIRONMENT_</p>
+            <h1>Cyber <span>Labs.</span></h1>
+            <p class="lead">
+                Mets en pratique tes connaissances grâce à des exercices
+                guidés, réalisés dans un environnement légal et contrôlé.
+                Aucune compétence n'est acquise sans pratique.
+            </p>
+        </section>
+
+        <section class="labs-section">
+            <div class="articles-grid" style="padding: 0 7%;">
+
+                <article class="article-card lab-card">
+                    <div class="lab-level beginner">DÉBUTANT</div>
+                    <h3>Scanner un réseau avec Nmap</h3>
+                    <p>
+                        Apprends à identifier les hôtes actifs et les
+                        ports ouverts sur un réseau de laboratoire.
+                    </p>
+                    <a href="../labs/nmap-scan.html">Start Lab →</a>
+                </article>
+
+                <article class="article-card lab-card">
+                    <div class="lab-level beginner">DÉBUTANT</div>
+                    <h3>Capturer du trafic avec Wireshark</h3>
+                    <p>
+                        Découvre comment analyser le trafic réseau et
+                        repérer des paquets suspects.
+                    </p>
+                    <a href="../labs/wireshark-capture.html">Start Lab →</a>
+                </article>
+
+                <article class="article-card lab-card">
+                    <div class="lab-level intermediate">INTERMÉDIAIRE</div>
+                    <h3>Casser des mots de passe (John the Ripper)</h3>
+                    <p>
+                        Comprends la faiblesse des mots de passe grâce à
+                        un exercice de cassage en environnement isolé.
+                    </p>
+                    <a href="../labs/password-cracking.html">Start Lab →</a>
+                </article>
+
+                <article class="article-card lab-card">
+                    <div class="lab-level advanced">AVANCÉ</div>
+                    <h3>Exploitation web (SQLi / XSS)</h3>
+                    <p>
+                        Comprends puis corrige une injection SQL et un XSS
+                        sur une application volontairement vulnérable.
+                    </p>
+                    <a href="../labs/sqli-xss.html">Start Lab →</a>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">CYBER<span>//</span>LAB</div>
+        <p>Learn. Practice. Defend.</p>
+        <p class="copyright">© 2026 CYBER//LAB — Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>
